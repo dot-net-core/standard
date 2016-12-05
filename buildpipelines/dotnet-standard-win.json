@@ -1,0 +1,144 @@
+{
+  "build": [
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Install Signing Plugin",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "30666190-6959-11e5-9f96-f56098202fef",
+        "versionSpec": "1.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "signType": "$(SignType)",
+        "zipSources": "false",
+        "version": "1.0.268",
+        "feedSource": "https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Run script build.cmd",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
+        "versionSpec": "1.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "filename": "build.cmd",
+        "arguments": "",
+        "modifyEnvironment": "false",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    }
+  ],
+  "options": [
+    {
+      "enabled": false,
+      "definition": {
+        "id": "7c555368-ca64-4199-add6-9ebaf0b0137d"
+      },
+      "inputs": {
+        "multipliers": "[]",
+        "parallel": "false",
+        "continueOnError": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "a9db38f9-9fdc-478c-b0f9-464221e58316"
+      },
+      "inputs": {
+        "workItemType": "234347",
+        "assignToRequestor": "true",
+        "additionalFields": "{}"
+      }
+    },
+    {
+      "enabled": false,
+      "definition": {
+        "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
+      },
+      "inputs": {
+        "additionalFields": "{}"
+      }
+    }
+  ],
+  "variables": {
+    "system.debug": {
+      "value": "false",
+      "allowOverride": true
+    },
+    "SignType": {
+      "value": "test"
+    }
+  },
+  "retentionRules": [
+    {
+      "branches": [
+        "+refs/heads/*"
+      ],
+      "artifacts": [],
+      "artifactTypesToDelete": [
+        "FilePath",
+        "SymbolStore"
+      ],
+      "daysToKeep": 10,
+      "minimumToKeep": 1,
+      "deleteBuildRecord": true,
+      "deleteTestResults": true
+    }
+  ],
+  "jobAuthorizationScope": "projectCollection",
+  "jobTimeoutInMinutes": 60,
+  "repository": {
+    "properties": {
+      "connectedServiceId": "f4c31735-42d2-4c3a-bc47-7ac06fd0dccc",
+      "apiUrl": "https://api.github.com/repos/dotnet/standard",
+      "branchesUrl": "https://api.github.com/repos/dotnet/standard/branches",
+      "cloneUrl": "https://github.com/dotnet/standard.git",
+      "refsUrl": "https://api.github.com/repos/dotnet/standard/git/refs",
+      "gitLfsSupport": "false",
+      "skipSyncSource": "false",
+      "fetchDepth": "0",
+      "cleanOptions": "0"
+    },
+    "id": "https://github.com/dotnet/standard.git",
+    "type": "GitHub",
+    "name": "dotnet/standard",
+    "url": "https://github.com/dotnet/standard.git",
+    "defaultBranch": "master",
+    "clean": "false",
+    "checkoutSubmodules": false
+  },
+  "quality": "definition",
+  "defaultBranch": "master",
+  "queue": {
+    "pool": {
+      "id": 3,
+      "name": "Hosted"
+    },
+    "id": 3,
+    "name": "Hosted"
+  },
+  "path": "\\",
+  "type": "build",
+  "id": 4673,
+  "name": "dotnet-standard-win",
+  "project": {
+    "id": "0bdbc590-a062-4c3f-b0f6-9383f67865ee",
+    "name": "DevDiv",
+    "description": "Visual Studio and DevDiv team project for git source code repositories.  Work items will be added for Adams, Dev14 work items are tracked in vstfdevdiv.  ",
+    "url": "https://devdiv.visualstudio.com/DefaultCollection/_apis/projects/0bdbc590-a062-4c3f-b0f6-9383f67865ee",
+    "state": "wellFormed",
+    "revision": 418097423
+  }
+}

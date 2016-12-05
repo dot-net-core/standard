@@ -1,0 +1,24 @@
+{
+  "Repository": "standard",
+  "Definitions": {
+    "Path": ".",
+    "Type": "VSTS",
+    "BaseUrl":  "https://devdiv.visualstudio.com/DefaultCollection"
+  },
+  "Pipelines": [
+    {
+      "Name": "Dotnet-Standard-All",
+      "Parameters": {
+        "TreatWarningsAsErrors": "false"
+      },
+      "BuildParameters": {
+        "ConfigurationGroup": "Release"
+      },
+      "Definitions": [
+        {
+          "Name": "dotnet-standard-win"
+        }
+      ]
+    }
+  ]
+}
