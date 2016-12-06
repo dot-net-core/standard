@@ -14,7 +14,7 @@
       "inputs": {
         "signType": "$(SignType)",
         "zipSources": "false",
-        "version": "1.0.268",
+        "version": "",
         "feedSource": "https://devdiv.pkgs.visualstudio.com/DefaultCollection/_packaging/MicroBuildToolset/nuget/v3/index.json"
       }
     },
@@ -31,10 +31,70 @@
       },
       "inputs": {
         "filename": "build.cmd",
-        "arguments": "",
+        "arguments": "-OfficialBuildId=$(OfficialBuildId)",
         "modifyEnvironment": "false",
         "workingFolder": "",
         "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Run script build-packages.cmd",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
+        "versionSpec": "1.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "filename": "build-packages.cmd",
+        "arguments": "/p:DefaultBuildAllTarget=Build /p:BuildAllProjects=true",
+        "modifyEnvironment": "false",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "Run script publish-packages.cmd",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "bfc8bf76-e7ac-4a8c-9a55-a944a9f632fd",
+        "versionSpec": "1.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "filename": "publish-packages.cmd",
+        "arguments": "/p:CloudDropAccountName=$(CloudDropAccountName) /p:CloudDropAccessToken=\"$(CloudDropAccessToken)\" /p:ContainerName=$(Label) /p:OverwriteOnPublish=true",
+        "modifyEnvironment": "false",
+        "workingFolder": "",
+        "failOnStandardError": "false"
+      }
+    },
+    {
+      "enabled": true,
+      "continueOnError": false,
+      "alwaysRun": false,
+      "displayName": "NuGet Publisher ",
+      "timeoutInMinutes": 0,
+      "task": {
+        "id": "333b11bd-d341-40d9-afcf-b32d5ce6f25b",
+        "versionSpec": "0.*",
+        "definitionType": "task"
+      },
+      "inputs": {
+        "searchPattern": "bin/packages/**/*.nupkg;-:bin/packages/**/*.symbols.nupkg",
+        "nuGetFeedType": "external",
+        "connectedServiceName": "6aa04133-b291-4194-9d63-9c2256bc65dd",
+        "feedName": "",
+        "nuGetAdditionalArgs": "",
+        "verbosity": "Detailed",
+        "nuGetVersion": "3.3.0",
+        "nuGetPath": ""
       }
     }
   ],
@@ -63,7 +123,7 @@
       }
     },
     {
-      "enabled": false,
+      "enabled": true,
       "definition": {
         "id": "57578776-4c22-4526-aeb0-86b6da17ee9c"
       },
@@ -79,8 +139,33 @@
     },
     "SignType": {
       "value": "test"
+    },
+    "TeamName": {
+      "value": "DotNetCore"
+    },
+    "CloudDropAccountName": {
+      "value": "dotnetbuildoutput"
+    },
+    "OfficialBuildId": {
+      "value": "$(Build.BuildNumber)"
+    },
+    "Label": {
+      "value": "$(Build.BuildNumber)"
+    },
+    "VsoAccountName": {
+      "value": "dn-bot"
+    },
+    "VsoPassword": {
+      "value": null,
+      "isSecret": true
+    },
+    "CloudDropAccessToken": {
+      "value": ""
     }
   },
+  "demands": [
+    "Agent.OS -equals windows_nt"
+  ],
   "retentionRules": [
     {
       "branches": [
@@ -97,8 +182,9 @@
       "deleteTestResults": true
     }
   ],
+  "buildNumberFormat": "$(date:yyyyMMdd)$(rev:-rr)",
   "jobAuthorizationScope": "projectCollection",
-  "jobTimeoutInMinutes": 60,
+  "jobTimeoutInMinutes": 180,
   "repository": {
     "properties": {
       "connectedServiceId": "f4c31735-42d2-4c3a-bc47-7ac06fd0dccc",
@@ -109,29 +195,29 @@
       "gitLfsSupport": "false",
       "skipSyncSource": "false",
       "fetchDepth": "0",
-      "cleanOptions": "0"
+      "cleanOptions": "3"
     },
     "id": "https://github.com/dotnet/standard.git",
     "type": "GitHub",
     "name": "dotnet/standard",
     "url": "https://github.com/dotnet/standard.git",
-    "defaultBranch": "master",
-    "clean": "false",
+    "defaultBranch": "buildpipe",
+    "clean": "true",
     "checkoutSubmodules": false
   },
   "quality": "definition",
-  "defaultBranch": "master",
+  "defaultBranch": "buildpipe",
   "queue": {
     "pool": {
-      "id": 3,
-      "name": "Hosted"
+      "id": 39,
+      "name": "DotNet-Build"
     },
-    "id": 3,
-    "name": "Hosted"
+    "id": 36,
+    "name": "DotNet-Build"
   },
   "path": "\\",
   "type": "build",
-  "id": 4673,
+  "id": 4955,
   "name": "dotnet-standard-win",
   "project": {
     "id": "0bdbc590-a062-4c3f-b0f6-9383f67865ee",
