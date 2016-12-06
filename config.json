@@ -1,10 +1,34 @@
 ﻿{
   "settings": {
+    "FilterToOSGroup": {
+      "description": "FilterToOSGroup for result binaries.",
+      "valueType": "property",
+      "values": ["Windows_NT", "Linux", "OSX", "FreeBSD", "NetBSD"],
+      "defaultValue": "${OSRid}"
+    },
     "ConfigurationGroup": {
       "description": "Sets the configuration group as Release or Debug",
       "valueType": "property",
       "values": ["Release", "Debug"],
       "defaultValue": "Debug"
+    },
+    "CloudDropAccountName": {
+      "description": "Azure account name.",
+      "valueType": "property",
+      "values": [],
+      "defaultValue": ""
+    },
+    "CloudDropAccessToken": {
+      "description": "Azure access token",
+      "valueType": "property",
+      "values": [],
+      "defaultValue": ""
+    },
+    "ContainerName": {
+      "description": "Azure container name",
+      "valueType": "property",
+      "values": [],
+      "defaultValue": ""
     },
     "ExtraParameters": {
       "description": "Extra parameters will be passed to the selected command.",
@@ -84,6 +108,14 @@
             "BuildPackages": false
           }
         },
+        "packages": {
+          "description": "Builds the NuGet packages.",
+          "settings": {
+            "Project": "netstandard/pkg/NETStandard.Library2.pkgproj",
+            "FilterToOSGroup":"default",
+            "MsBuildLogging":"/flp:v=normal;LogFile=build-packages.log"
+          }
+        },
         "debug":{
           "description": "Sets ConfigurationGroup=Debug or the value passed by the user.",
           "settings":{
@@ -144,6 +176,41 @@
           "MsBuildLogging":"/flp:v=normal;LogFile=clean.log"
         }
       }
+    },
+    "publish-packages": {
+      "alias": {
+        "AzureAccount": {
+          "description": "Account name to connect to Azure Blob storage. Required for the command to work.",
+          "settings": {
+            "CloudDropAccountName": "default"
+          }
+        },
+        "AzureToken": {
+          "description": "Account token to connect to Azure Blob storage. Required for the command to work.",
+          "settings": {
+            "CloudDropAccessToken": "default"
+          }
+        },
+        "Container": {
+          "description": "Container name of the Azure Blob where the packages are going to be stored. Required for the command to work.",
+          "settings": {
+            "ContainerName": "default"
+          }
+        },
+        "verbose": {
+          "description": "Passes /flp:v=diag to the msbuild command or the value passed by the user.",
+          "settings": {
+            "MsBuildLogging": "/flp:v=diag;LogFile=publish-packages.log"
+          }
+        }
+      },
+      "defaultValues": {
+        "toolName": "msbuild",
+        "settings": {
+          "Project": "netstandard/pkg/publish.proj",
+          "MsBuildLogging":"/flp:v=normal;LogFile=publish-packages.log"
+        }
+      }
     }
   },
   "tools": {
@@ -152,7 +219,7 @@
         "windows": {
           "defaultParameters": "/nologo /verbosity:minimal /clp:Summary /maxcpucount /nodeReuse:false /l:BinClashLogger,Tools\\net45\\Microsoft.DotNet.Build.Tasks.dll;LogFile=binclash.log",
           "path": "Tools/msbuild.cmd"
-        },
+        }
       },
       "valueTypes": {
         "property": "/p:{name}={value}",
